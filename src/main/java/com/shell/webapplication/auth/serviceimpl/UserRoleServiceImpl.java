@@ -34,7 +34,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     public CompletableFuture<List<UserRoleEntity>> getAllUserRoles() {
-        return CompletableFuture.completedFuture(findAllUserRoles());
+        return CompletableFuture.supplyAsync(this::findAllUserRoles);
     }
 
     @Override
