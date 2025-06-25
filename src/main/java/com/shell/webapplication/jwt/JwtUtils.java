@@ -38,8 +38,8 @@ public class JwtUtils {
         System.out.println("Generating token for "+customUserDetails.getUsername());
         return Jwts.builder().setClaims(claims).setSubject(customUserDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + (isRefreshToken ? TimeUnit.DAYS.toMillis(Long.parseLong(refreshExpiration))
-                                : TimeUnit.DAYS.toMillis(Long.parseLong(accessExpiration)))))
+                .setExpiration(new Date(System.currentTimeMillis() + (isRefreshToken ? TimeUnit.MINUTES.toMillis(Long.parseLong(refreshExpiration))
+                                : TimeUnit.MINUTES.toMillis(Long.parseLong(accessExpiration)))))
                 .signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
 

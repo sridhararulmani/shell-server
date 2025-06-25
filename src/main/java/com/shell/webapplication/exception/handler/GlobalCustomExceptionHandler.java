@@ -30,6 +30,16 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalCustomExceptionHandler {
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<AppResponse> handleException(Exception exception, HttpServletRequest httpServletRequest) {
+        AppResponse appResponse = new AppResponse();
+        appResponse.setPath(httpServletRequest.getRequestURI());
+        appResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        appResponse.setMessage(exception.getMessage());
+        appResponse.setLocalDateTime(LocalDateTime.now());
+        return new ResponseEntity<AppResponse>(appResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(IOException.class)
     public ResponseEntity<AppResponse> handleIOException(IOException ioException, HttpServletRequest httpServletRequest) {
         AppResponse appResponse = new AppResponse();
@@ -44,11 +54,11 @@ public class GlobalCustomExceptionHandler {
     public ResponseEntity<AppResponse> handleTokenExpirationException(TokenExpirationException tokenExpirationException, HttpServletRequest httpServletRequest) {
         AppResponse appResponse = new AppResponse(
                 httpServletRequest.getRequestURI(),
-                HttpStatus.FORBIDDEN.value(),
+                HttpStatus.UNAUTHORIZED.value(),
                 AppConstant.ACCESS_TOKEN_EXPIRED,
                 LocalDateTime.now()
         );
-        return new ResponseEntity<AppResponse>(appResponse, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<AppResponse>(appResponse, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(JwtException.class)
