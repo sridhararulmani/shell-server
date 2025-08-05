@@ -2,13 +2,19 @@ package com.shell.webapplication.jwt;
 
 import com.shell.webapplication.auth.service.CustomUserDetailsService;
 import com.shell.webapplication.auth.dto.CustomUserDetails;
+import com.shell.webapplication.constent.AppConstant;
 import com.shell.webapplication.context.UserContext;
 import com.shell.webapplication.exception.customexception.InvalidTokenException;
+import com.shell.webapplication.exception.customexception.TokenExpirationException;
+import com.shell.webapplication.exception.customexception.UnauthorizedException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,6 +47,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (Objects.nonNull(ACCESS_TOKEN)) {
             try {
                 userName = jwtUtils.extractAllClaims(ACCESS_TOKEN).getSubject();
+            } catch (JwtException e) {
+                throw new UnauthorizedException();
             } catch (Exception e) {
                 throw new InvalidTokenException();
             }

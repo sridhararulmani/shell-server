@@ -2,6 +2,7 @@ package com.shell.webapplication.jwt;
 
 import com.shell.webapplication.auth.dto.CustomUserDetails;
 import com.shell.webapplication.exception.customexception.TokenExpirationException;
+import com.shell.webapplication.exception.customexception.UnauthorizedException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -12,6 +13,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -77,8 +79,9 @@ public class JwtUtils {
         String bearerToken = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
         if (Objects.nonNull(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
+        } else {
+            throw new UnauthorizedException();
         }
-        return null;
     }
 
 }

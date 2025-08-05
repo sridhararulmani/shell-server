@@ -54,11 +54,11 @@ public class GlobalCustomExceptionHandler {
     public ResponseEntity<AppResponse> handleTokenExpirationException(TokenExpirationException tokenExpirationException, HttpServletRequest httpServletRequest) {
         AppResponse appResponse = new AppResponse(
                 httpServletRequest.getRequestURI(),
-                HttpStatus.UNAUTHORIZED.value(),
+                HttpStatus.FORBIDDEN.value(),
                 AppConstant.ACCESS_TOKEN_EXPIRED,
                 LocalDateTime.now()
         );
-        return new ResponseEntity<AppResponse>(appResponse, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<AppResponse>(appResponse, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(JwtException.class)
@@ -131,11 +131,11 @@ public class GlobalCustomExceptionHandler {
     public ResponseEntity<AppResponse> unknownException(UnknownError unknownError, HttpServletRequest httpServletRequest) {
         AppResponse appResponse = new AppResponse(
                 httpServletRequest.getRequestURI(),
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                HttpStatus.SWITCHING_PROTOCOLS.value(),
                 unknownError.getMessage(),
                 LocalDateTime.now()
         );
-        return new ResponseEntity<AppResponse>(appResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<AppResponse>(appResponse, HttpStatus.SWITCHING_PROTOCOLS);
     }
 
     @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
@@ -153,11 +153,11 @@ public class GlobalCustomExceptionHandler {
     public ResponseEntity<AppResponse> cacheException(CacheException cacheException, HttpServletRequest httpServletRequest) {
         AppResponse appResponse = new AppResponse(
                 httpServletRequest.getRequestURI(),
-                HttpStatus.UNAUTHORIZED.value(),
+                HttpStatus.SWITCHING_PROTOCOLS.value(),
                 cacheException.getMessage(),
                 LocalDateTime.now()
         );
-        return new ResponseEntity<AppResponse>(appResponse, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<AppResponse>(appResponse, HttpStatus.SWITCHING_PROTOCOLS);
     }
 
     @ExceptionHandler(CustomValidationException.class)

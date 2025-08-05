@@ -1,20 +1,18 @@
 package com.shell.webapplication.auth.service;
 
+import com.shell.webapplication.auth.dto.RefreshTokensDTO;
 import com.shell.webapplication.auth.dto.RegisterUserDto;
 import com.shell.webapplication.auth.dto.UserDto;
 import com.shell.webapplication.auth.entity.UserEntity;
-import com.shell.webapplication.constent.AppThreadConstant;
 import com.shell.webapplication.exception.customexception.UserNotFoundException;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @Transactional
@@ -30,4 +28,6 @@ public interface UserService {
     public abstract UserEntity getUser(Long userId) throws UserNotFoundException;
 
     public abstract UserDto mapToUserDto(UserEntity user);
+
+    public abstract RefreshTokensDTO refreshTokens(RefreshTokensDTO dto);
 }

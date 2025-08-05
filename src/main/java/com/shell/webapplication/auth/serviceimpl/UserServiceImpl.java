@@ -1,5 +1,6 @@
 package com.shell.webapplication.auth.serviceimpl;
 
+import com.shell.webapplication.auth.dto.RefreshTokensDTO;
 import com.shell.webapplication.auth.dto.RegisterUserDto;
 import com.shell.webapplication.auth.dto.RoleDto;
 import com.shell.webapplication.auth.dto.UserDto;
@@ -88,6 +89,11 @@ public class UserServiceImpl implements UserService {
                 user.getProfileImage(),
                 user.getProfileImageType(),
                 user.getUserRoles().stream().map(UserRoleEntity::getRole).collect(Collectors.toList()));
+    }
+
+    @Override
+    public RefreshTokensDTO refreshTokens(RefreshTokensDTO dto) {
+        return new RefreshTokensDTO();
     }
 
 }

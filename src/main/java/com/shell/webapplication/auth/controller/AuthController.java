@@ -49,4 +49,11 @@ public class AuthController {
         return ResponseEntity.ok(userService.mapToUserDto(authService.getLoggedInUser()));
     }
 
+    @GetMapping("/tokens/refreshTokens")
+    public ResponseEntity<UserDto> refreshTokens() {
+        return ResponseEntity.ok(userService.mapToUserDto(authService.getLoggedInUser()));
+    }
+
+
+
 }
